@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
 from django.urls import reverse_lazy
 from .models import Student
+from .models import Teacher
 
 # Create your views here.
 class MyHomeView(TemplateView):
@@ -39,6 +40,18 @@ class StudentDeleteView(DeleteView):
     model = Student
     # Redirect after successful delete
     success_url = reverse_lazy('first_app:student_list')
+
+class TeacherListView(ListView):
+    model = Teacher  # Connected to Models Student
+    queryset = Teacher.objects.order_by("name")  # Result ordered by name
+    context_object_name = "teachers"  # default object_list now students
+    paginate_by = 15  # 15 per page in ListView
+
+class TeacherCreateView(CreateView):
+    template_name = "first_app/teacher_form_create.html"
+    model = Teacher
+    fields = "__all__"  # All fields into form
+    success_url = reverse_lazy("first_app:teacher_list")
 
 
 
