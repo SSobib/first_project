@@ -26,3 +26,9 @@ class Teacher(models.Model):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ['name', 'subject']
 
+class Subject(models.Model):
+    name = models.CharField(max_length=100)
+
+class SubjectAdmin(admin.ModelAdmin):
+    list_display = ['name']
+

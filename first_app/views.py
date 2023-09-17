@@ -3,6 +3,7 @@ from django.views.generic import (TemplateView, ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import Student
 from .models import Teacher
+from .models import Subject
 
 # Create your views here.
 class MyHomeView(TemplateView):
@@ -52,6 +53,38 @@ class TeacherCreateView(CreateView):
     model = Teacher
     fields = "__all__"  # All fields into form
     success_url = reverse_lazy("first_app:teacher_list")
+
+class SubjectListView(ListView):
+    model = Subject  # Connected to Models Student
+    queryset = Subject.objects.order_by("name")  # Result ordered by name
+    context_object_name = "subjects"  # default object_list now students
+    paginate_by = 15  # 15 per page in ListView
+
+class SubjectDetailView(DetailView):
+    # Return only one model entry
+    # default template model_detail.html => student_detail.html
+    model = Subject
+
+class SubjectCreateView(CreateView):
+    template_name = "first_app/subject_form_create.html"
+    model = Subject
+    fields = "__all__"  # All fields into form
+    success_url = reverse_lazy("first_app:subject_list")
+
+class SubjectUpdateView(UpdateView):
+    # model_form.html => student_form.html
+    model = Subject
+    fields = ["name"]  # Update only this fields
+    success_url = reverse_lazy("first_app:subject_list")
+
+class SubjectDeleteView(DeleteView):
+    # Form -> Confirm Delete Button
+    # Default template name => model_confirm_detelete.html ->
+    #-> student_confirm_delete.html
+    model = Subject
+    # Redirect after successful delete
+    success_url = reverse_lazy('first_app:subject_list')
+
 
 
 

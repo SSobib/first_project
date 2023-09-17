@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <H4>Delete subject "{{ subject.name }}"</H4>
+    <form method="post">
+        {%  csrf_token %}
+        <input type="submit" value="Confirm Delete" class="btn btn-danger">
+    </form>
+    <p><a href="{%  url 'first_app:subject_list' %}">Subject list</a></p>
+{% endblock %}
